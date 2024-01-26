@@ -9,8 +9,9 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { FIRESTORE_DB } from "../../firebaseConfig";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { addDoc, collection, deleteDoc, doc, onSnapshot, updateDoc } from "firebase/firestore";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Entypo, Feather } from "@expo/vector-icons";
 
 export interface Todo {
   title: string;
@@ -54,24 +55,26 @@ const List = ({ navigation }: any) => {
   };
 
   const renderTodo = ({ item }: any) => {
-    const toggleDone = async () => {
+    const ref = doc(FIRESTORE_DB, `todos/${item.id}`);
 
+    const toggleDone = async () => {
+      updateDoc(ref, {done: !item.done})
     };
 
     const deleteItem = async () => {
-      
+      deleteDoc(ref)
     };
-    
 
     return (
-      <View>
-        <TouchableOpacity onPress={toggleDone}>
-          {!item.done && <Ionicons name='checkbox' size={20} />}
-          {item.done && <Ionicons name='checkbox' size={20} />}
-          <Text>{item.title}</Text>
+      <View style={styles.todoContainer}>
+        <TouchableOpacity onPress={toggleDone} style={styles.todo}>
+          {item.done && <Ionicons name="checkbox" size={24} color="green"/>}
+          {!item.done && <Entypo name="circle" size={24} color="gray" />}
+          <Text style={styles.todoText}>{item.title}</Text>
         </TouchableOpacity>
+        <Feather name="trash-2" size={24} color="red" onPress={deleteItem} />
       </View>
-    )
+    );
   };
 
   return (
@@ -119,5 +122,25 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     backgroundColor: "white",
+  },
+
+  todoContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "white",
+    padding: 10,
+    marginVertical: 4,
+    borderRadius: 8,
+  },
+
+  todoText: {
+    flex: 1,
+    paddingHorizontal: 4,
+  },
+
+  todo: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
