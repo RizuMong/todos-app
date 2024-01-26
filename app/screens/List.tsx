@@ -1,10 +1,25 @@
-import { View, Text, Button, StyleSheet, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TextInput,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { FIRESTORE_DB } from "../../firebaseConfig";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import Ionicons from '@expo/vector-icons/Ionicons';
+
+export interface Todo {
+  title: string;
+  done: boolean;
+  id: string;
+}
 
 const List = ({ navigation }: any) => {
-  const [todos, setTodos] = useState<any[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [todo, setTodo] = useState("");
 
   useEffect(() => {
@@ -12,15 +27,21 @@ const List = ({ navigation }: any) => {
 
     const subscriber = onSnapshot(todoRef, {
       next: (snapshot) => {
-          const todos: any[] = [];
-          snapshot.docs.forEach(doc => {
-            todos.push({
-              id: doc.id,
-              ...doc.data()
-            })
-          })
+        console.log("UPDATE");
+
+        const todos: Todo[] = [];
+        snapshot.docs.forEach((doc) => {
+          todos.push({
+            id: doc.id,
+            ...doc.data(),
+          } as Todo);
+        });
+
+        setTodos(todos);
       },
-    })
+    });
+
+    return () => subscriber();
   }, []);
 
   const addTodo = async () => {
@@ -28,8 +49,29 @@ const List = ({ navigation }: any) => {
       title: todo,
       done: false,
     });
+
+    setTodo("");
+  };
+
+  const renderTodo = ({ item }: any) => {
+    const toggleDone = async () => {
+
+    };
+
+    const deleteItem = async () => {
+      
+    };
     
-    setTodo('');
+
+    return (
+      <View>
+        <TouchableOpacity onPress={toggleDone}>
+          {!item.done && <Ionicons name='checkbox' size={20} />}
+          {item.done && <Ionicons name='checkbox' size={20} />}
+          <Text>{item.title}</Text>
+        </TouchableOpacity>
+      </View>
+    )
   };
 
   return (
@@ -43,6 +85,16 @@ const List = ({ navigation }: any) => {
         />
         <Button onPress={addTodo} title="Add Todo" disabled={todo === ""} />
       </View>
+
+      {todos.length > 0 && (
+        <View>
+          <FlatList
+            data={todos}
+            renderItem={(item) => renderTodo(item)}
+            keyExtractor={(todo: Todo) => todo.id}
+          />
+        </View>
+      )}
     </View>
   );
 };
@@ -66,6 +118,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     padding: 10,
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
 });
