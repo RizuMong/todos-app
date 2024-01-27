@@ -15,15 +15,10 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
-import { useFonts } from 'expo-font';
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [fontsLoaded, fontError] = useFonts({
-    'Montserrat': require('../../assets/fonts/Montserrat.ttf'),
-  });
 
   const auth = FIREBASE_AUTH;
 
@@ -113,8 +108,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     paddingVertical: 24,
-    fontFamily: 'Montserrat',
-    fontWeight: "bold",
+    fontFamily: 'Montserrat-Bold',
+    // fontWeight: "bold",
   },
 
   button: {

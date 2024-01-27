@@ -7,6 +7,7 @@ import Details from "./app/screens/Details";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { FIREBASE_AUTH } from "./firebaseConfig";
+import { useFonts } from "expo-font";
 
 const Stack = createNativeStackNavigator();
 const InsideStack = createNativeStackNavigator();
@@ -22,6 +23,15 @@ function InsideLayout() {
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
+  const [fontsLoaded] = useFonts({
+    'Montserrat-Thin': require('./assets/fonts/Montserrat.ttf'),
+    'Montserrat-Semibold': require('./assets/fonts/Montserrat-SemiBold.ttf'),
+    'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return null
+  }
 
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
