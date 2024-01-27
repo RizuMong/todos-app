@@ -6,6 +6,7 @@ import {
   TextInput,
   FlatList,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { FIRESTORE_DB } from "../../firebaseConfig";
@@ -99,7 +100,14 @@ const List = ({ navigation }: RouterProps) => {
           onChangeText={(text: string) => setTodo(text)}
           value={todo}
         />
-        <Button onPress={addTodo} title="Add Todo" disabled={todo === ""} />
+        {/* <Button onPress={addTodo} title="Add Todo" disabled={todo === ""} /> */}
+        <Pressable
+          style={styles.button}
+          onPress={addTodo}
+          disabled={todo === ""}
+        >
+          <Text style={styles.textLogin}>Tambah</Text>
+        </Pressable>
       </View>
 
       {todos.length > 0 && (
@@ -112,7 +120,9 @@ const List = ({ navigation }: RouterProps) => {
         </View>
       )}
 
-      <Button onPress={() => FIREBASE_AUTH.signOut()} title="Logout" />
+      <Pressable onPress={() => FIREBASE_AUTH.signOut()}>
+        <Text style={styles.textRegister}>Logout</Text>
+      </Pressable>
     </View>
   );
 };
@@ -133,7 +143,6 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 40,
-    borderWidth: 1,
     borderRadius: 8,
     padding: 10,
     backgroundColor: "white",
@@ -157,5 +166,35 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
+  },
+
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 8,
+    elevation: 3,
+    backgroundColor: "black",
+    marginVertical: 4,
+  },
+
+  textRegister: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "700",
+    letterSpacing: 0.25,
+    color: "red",
+    textAlign: "center",
+    marginTop: 20,
+    fontFamily: "Montserrat",
+  },
+
+  textLogin: {
+    fontSize: 14,
+    fontWeight: "700",
+    letterSpacing: 0.25,
+    color: "white",
+    fontFamily: "Montserrat",
   },
 });
