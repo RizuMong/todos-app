@@ -19,6 +19,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  
 
   const auth = FIREBASE_AUTH;
 
@@ -52,7 +53,8 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerTodo}>Login & Register Todo</Text>
+      <Text style={styles.headerTodo}>Selamat Datang</Text>
+      <Text style={styles.description}>TaskKi untuk mengelola tugas anda.</Text>
       <KeyboardAvoidingView behavior="padding">
         <TextInput
           value={email}
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "white",
-    fontFamily: 'Montserrat'
+    fontFamily: 'Montserrat-Bold',
   },
 
   textRegister: {
@@ -140,7 +142,6 @@ const styles = StyleSheet.create({
     color: "gray",
     textAlign: "center",
     marginTop: 8,
-    fontFamily: 'Montserrat'
   },
 
   textLogin: {
@@ -149,6 +150,13 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     letterSpacing: 0.25,
     color: "white",
-    fontFamily: 'Montserrat'
   },
+
+  description: {
+    fontSize: 14,
+    textAlign: "center",
+    marginBottom: 14,
+    color: 'gray',
+    fontFamily: 'Montserrat',
+  }
 }); 

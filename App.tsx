@@ -15,23 +15,16 @@ const InsideStack = createNativeStackNavigator();
 function InsideLayout() {
   return (
     <InsideStack.Navigator>
-      <InsideStack.Screen name="My Todo" component={List} />
+      <InsideStack.Screen name="TodoList" component={List} />
       <InsideStack.Screen name="Details" component={Details} />
     </InsideStack.Navigator>
   );
 }
 
 export default function App() {
-  const [user, setUser] = useState<User | null>(null);
-  const [fontsLoaded] = useFonts({
-    'Montserrat-Thin': require('./assets/fonts/Montserrat.ttf'),
-    'Montserrat-Semibold': require('./assets/fonts/Montserrat-SemiBold.ttf'),
-    'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf'),
-  });
 
-  if (!fontsLoaded) {
-    return null
-  }
+
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {

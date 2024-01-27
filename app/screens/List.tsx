@@ -33,7 +33,7 @@ interface RouterProps {
   navigation: NavigationProp<any, any>;
 }
 
-const List = ({ navigation }: RouterProps) => {
+const List = ({ navigation }: RouterProps) => {  
   const [todos, setTodos] = useState<Todo[]>([]);
   const [todo, setTodo] = useState("");
 
@@ -187,7 +187,6 @@ const styles = StyleSheet.create({
     color: "red",
     textAlign: "center",
     marginTop: 20,
-    fontFamily: "Montserrat",
   },
 
   textLogin: {
@@ -195,6 +194,11 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     letterSpacing: 0.25,
     color: "white",
-    fontFamily: "Montserrat",
   },
+
+  textLogout:{
+    fontSize: 14,
+    fontFamily: "Montserrat-Thin",
+    color: "red",
+  }
 });
