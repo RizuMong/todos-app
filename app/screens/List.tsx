@@ -9,9 +9,18 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { FIRESTORE_DB } from "../../firebaseConfig";
-import { addDoc, collection, deleteDoc, doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { FIREBASE_AUTH } from "../../firebaseConfig";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Entypo, Feather } from "@expo/vector-icons";
+import { NavigationProp } from "@react-navigation/native";
 
 export interface Todo {
   title: string;
@@ -19,7 +28,11 @@ export interface Todo {
   id: string;
 }
 
-const List = ({ navigation }: any) => {
+interface RouterProps {
+  navigation: NavigationProp<any, any>;
+}
+
+const List = ({ navigation }: RouterProps) => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [todo, setTodo] = useState("");
 
@@ -58,17 +71,17 @@ const List = ({ navigation }: any) => {
     const ref = doc(FIRESTORE_DB, `todos/${item.id}`);
 
     const toggleDone = async () => {
-      updateDoc(ref, {done: !item.done})
+      updateDoc(ref, { done: !item.done });
     };
 
     const deleteItem = async () => {
-      deleteDoc(ref)
+      deleteDoc(ref);
     };
 
     return (
       <View style={styles.todoContainer}>
         <TouchableOpacity onPress={toggleDone} style={styles.todo}>
-          {item.done && <Ionicons name="checkbox" size={24} color="green"/>}
+          {item.done && <Ionicons name="checkbox" size={24} color="green" />}
           {!item.done && <Entypo name="circle" size={24} color="gray" />}
           <Text style={styles.todoText}>{item.title}</Text>
         </TouchableOpacity>
@@ -98,6 +111,8 @@ const List = ({ navigation }: any) => {
           />
         </View>
       )}
+
+      <Button onPress={() => FIREBASE_AUTH.signOut()} title="Logout" />
     </View>
   );
 };
